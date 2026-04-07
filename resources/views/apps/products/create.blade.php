@@ -3,12 +3,12 @@
 @section('title', 'Tambah Produk')
 
 @section('content')
-    <div class="flex justify-between items-end mb-4">
+    <div class="flex justify-between items-end mb-6">
         <div>
-            <h1 class="text-xl font-semibold tracking-tight text-zinc-900 mb-1">Tambah Produk</h1>
+            <h1 class="text-2xl font-semibold tracking-tight text-zinc-900 mb-2">Tambah Produk</h1>
             <x-breadcrumb :items="['Dashboard' => url('/'), 'Produk' => route('products.index'), 'Tambah' => null]" />
         </div>
-        <a class="text-zinc-500 hover:text-zinc-900 text-xs font-medium transition-colors" href="{{ route('products.index') }}">Kembali</a>
+        <a class="text-zinc-500 hover:text-zinc-900 text-sm font-medium transition-colors" href="{{ route('products.index') }}">Kembali</a>
     </div>
 
     @if ($errors->any())
