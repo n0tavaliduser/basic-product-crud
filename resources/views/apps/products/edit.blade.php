@@ -1,112 +1,58 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Product</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            background: #f5f5f5;
-            color: #222;
-        }
+@extends('layouts.app')
 
-        .container {
-            max-width: 720px;
-            margin: 40px auto;
-            padding: 24px;
-            background: #fff;
-            border-radius: 12px;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-        }
+@section('title', 'Edit Produk')
 
-        label {
-            display: block;
-            margin-bottom: 6px;
-            font-weight: 600;
-        }
+@section('content')
+    <div class="flex justify-between items-end mb-4">
+        <div>
+            <h1 class="text-xl font-semibold tracking-tight text-zinc-900 mb-1">Edit Produk</h1>
+            <x-breadcrumb :items="['Dashboard' => url('/'), 'Produk' => route('products.index'), 'Edit' => null]" />
+        </div>
+        <a class="text-zinc-500 hover:text-zinc-900 text-xs font-medium transition-colors" href="{{ route('products.index') }}">Kembali</a>
+    </div>
 
-        input,
-        textarea {
-            width: 100%;
-            padding: 12px;
-            margin-bottom: 16px;
-            border: 1px solid #d1d5db;
-            border-radius: 8px;
-            box-sizing: border-box;
-        }
+    @if ($errors->any())
+        <div class="bg-red-50 text-red-800 px-3 py-2 rounded-md text-sm mb-4 border border-red-200 shadow-sm">
+            <ul class="list-disc pl-5 m-0">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
 
-        .actions {
-            display: flex;
-            gap: 12px;
-        }
-
-        a,
-        button {
-            display: inline-block;
-            padding: 10px 14px;
-            border: 0;
-            border-radius: 8px;
-            background: #1f6feb;
-            color: #fff;
-            text-decoration: none;
-            cursor: pointer;
-        }
-
-        a {
-            background: #6c757d;
-        }
-
-        .alert {
-            padding: 12px 16px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            background: #fdecec;
-            color: #991b1b;
-        }
-
-        ul {
-            margin: 0;
-            padding-left: 18px;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>Edit Produk</h1>
-
-        @if ($errors->any())
-            <div class="alert">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
-
-        <form action="{{ route('products.update', $product) }}" method="POST">
+    <div class="bg-white border border-zinc-200 rounded-md shadow-sm">
+        <form action="{{ route('products.update', $product) }}" method="POST" class="p-4 sm:p-5">
             @csrf
             @method('PUT')
 
-            <label for="name">Nama</label>
-            <input id="name" name="name" type="text" value="{{ old('name', $product->name) }}" required>
+            <div class="mb-4">
+                <label for="name" class="block font-medium text-zinc-900 text-sm mb-1.5">Nama Produk</label>
+                <input id="name" name="name" type="text" value="{{ old('name', $product->name) }}" required
+                       class="w-full bg-zinc-50 border border-zinc-200 rounded-md px-3 py-1.5 text-sm focus:bg-white focus:ring-1 focus:ring-zinc-900 focus:border-zinc-900 outline-none transition-colors">
+            </div>
 
-            <label for="price">Harga</label>
-            <input id="price" name="price" type="number" step="0.01" min="0" value="{{ old('price', $product->price) }}" required>
+            <div class="mb-4">
+                <label for="price" class="block font-medium text-zinc-900 text-sm mb-1.5">Harga</label>
+                <input id="price" name="price" type="number" step="0.01" min="0" value="{{ old('price', $product->price) }}" required
+                       class="w-full bg-zinc-50 border border-zinc-200 rounded-md px-3 py-1.5 text-sm focus:bg-white focus:ring-1 focus:ring-zinc-900 focus:border-zinc-900 outline-none transition-colors">
+            </div>
 
-            <label for="stock">Stok</label>
-            <input id="stock" name="stock" type="number" min="0" value="{{ old('stock', $product->stock) }}" required>
+            <div class="mb-4">
+                <label for="stock" class="block font-medium text-zinc-900 text-sm mb-1.5">Stok</label>
+                <input id="stock" name="stock" type="number" min="0" value="{{ old('stock', $product->stock) }}" required
+                       class="w-full bg-zinc-50 border border-zinc-200 rounded-md px-3 py-1.5 text-sm focus:bg-white focus:ring-1 focus:ring-zinc-900 focus:border-zinc-900 outline-none transition-colors">
+            </div>
 
-            <label for="description">Deskripsi</label>
-            <textarea id="description" name="description" rows="5" required>{{ old('description', $product->description) }}</textarea>
+            <div class="mb-5">
+                <label for="description" class="block font-medium text-zinc-900 text-sm mb-1.5">Deskripsi</label>
+                <textarea id="description" name="description" rows="3" required
+                          class="w-full bg-zinc-50 border border-zinc-200 rounded-md px-3 py-1.5 text-sm focus:bg-white focus:ring-1 focus:ring-zinc-900 focus:border-zinc-900 outline-none transition-colors resize-none">{{ old('description', $product->description) }}</textarea>
+            </div>
 
-            <div class="actions">
-                <button type="submit">Update</button>
-                <a href="{{ route('products.index') }}">Kembali</a>
+            <div class="flex gap-3 items-center border-t border-zinc-100 pt-3">
+                <button type="submit" class="bg-zinc-900 hover:bg-zinc-800 text-white px-4 py-1.5 rounded-md text-xs font-medium transition-colors shadow-sm">Simpan Perubahan</button>
             </div>
         </form>
     </div>
-</body>
-</html>
+@endsection

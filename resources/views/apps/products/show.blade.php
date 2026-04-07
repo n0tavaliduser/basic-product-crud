@@ -1,66 +1,37 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Product Detail</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            background: #f5f5f5;
-            color: #222;
-        }
+@extends('layouts.app')
 
-        .container {
-            max-width: 720px;
-            margin: 40px auto;
-            padding: 24px;
-            background: #fff;
-            border-radius: 12px;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-        }
+@section('title', 'Detail Produk')
 
-        .card {
-            display: grid;
-            gap: 16px;
-        }
-
-        .actions {
-            display: flex;
-            gap: 12px;
-            margin-top: 24px;
-        }
-
-        a {
-            display: inline-block;
-            padding: 10px 14px;
-            border-radius: 8px;
-            background: #1f6feb;
-            color: #fff;
-            text-decoration: none;
-        }
-
-        a.secondary {
-            background: #6c757d;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>Detail Produk</h1>
-
-        <div class="card">
-            <div><strong>Nama:</strong> {{ $product->name }}</div>
-            <div><strong>Harga:</strong> Rp {{ number_format((float) $product->price, 2, ',', '.') }}</div>
-            <div><strong>Stok:</strong> {{ $product->stock }}</div>
-            <div><strong>Deskripsi:</strong> {{ $product->description }}</div>
+@section('content')
+    <div class="flex justify-between items-end mb-6">
+        <div>
+            <h1 class="text-2xl font-semibold tracking-tight text-zinc-900 mb-2">Detail Produk</h1>
+            <x-breadcrumb :items="['Dashboard' => url('/'), 'Produk' => route('products.index'), 'Detail' => null]" />
         </div>
-
-        <div class="actions">
-            <a href="{{ route('products.edit', $product) }}">Edit</a>
-            <a class="secondary" href="{{ route('products.index') }}">Kembali</a>
+        <div class="flex gap-3 items-center">
+            <a class="text-zinc-500 hover:text-zinc-900 text-xs font-medium transition-colors" href="{{ route('products.index') }}">Kembali</a>
+            <a class="bg-zinc-900 hover:bg-zinc-800 text-white px-4 py-2 rounded-md text-xs font-medium transition-colors shadow-sm" href="{{ route('products.edit', $product) }}">Edit Produk</a>
         </div>
     </div>
-</body>
-</html>
+
+    <div class="bg-white border border-zinc-200 rounded-md shadow-sm overflow-hidden text-zinc-800">
+        <dl class="divide-y divide-zinc-200">
+            <div class="px-6 py-5 sm:grid sm:grid-cols-3 sm:gap-4 hover:bg-zinc-50 transition-colors">
+                <dt class="text-sm font-medium text-zinc-500">Nama Produk</dt>
+                <dd class="mt-1 text-sm text-zinc-900 sm:col-span-2 sm:mt-0 font-medium">{{ $product->name }}</dd>
+            </div>
+            <div class="px-6 py-5 sm:grid sm:grid-cols-3 sm:gap-4 hover:bg-zinc-50 transition-colors">
+                <dt class="text-sm font-medium text-zinc-500">Harga</dt>
+                <dd class="mt-1 text-sm text-zinc-900 sm:col-span-2 sm:mt-0 font-medium">Rp {{ number_format((float) $product->price, 2, ',', '.') }}</dd>
+            </div>
+            <div class="px-6 py-5 sm:grid sm:grid-cols-3 sm:gap-4 hover:bg-zinc-50 transition-colors">
+                <dt class="text-sm font-medium text-zinc-500">Stok</dt>
+                <dd class="mt-1 text-sm text-zinc-600 sm:col-span-2 sm:mt-0">{{ $product->stock }}</dd>
+            </div>
+            <div class="px-6 py-5 sm:grid sm:grid-cols-3 sm:gap-4 hover:bg-zinc-50 transition-colors">
+                <dt class="text-sm font-medium text-zinc-500">Deskripsi</dt>
+                <dd class="mt-1 text-sm text-zinc-600 sm:col-span-2 sm:mt-0 whitespace-pre-line leading-relaxed">{{ $product->description }}</dd>
+            </div>
+        </dl>
+    </div>
+@endsection

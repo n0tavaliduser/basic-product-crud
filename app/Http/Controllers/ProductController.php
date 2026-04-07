@@ -6,6 +6,7 @@ use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Models\Product;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -13,10 +14,13 @@ use Throwable;
 
 class ProductController extends Controller
 {
-    public function index(): View|RedirectResponse
+    public function index(Request $request): View|RedirectResponse
     {
         try {
             $products = Product::query()
+                ->when(request('search'), function ($query) {
+                    $query->where('name', 'like', '%' . request('search') . '%');
+                })
                 ->latest()
                 ->paginate(10);
 
