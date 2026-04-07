@@ -25,7 +25,7 @@ class ProductSeeder extends Seeder
                         'name' => $item['title'],
                     ],
                     [
-                        'price' => $item['price'],
+                        'price' => $item['price'] * 16500,
                         'stock' => random_int(20, 50),
                         'description' => $item['description'],
                     ]
