@@ -53,9 +53,16 @@
                 <tbody class="divide-y divide-zinc-100">
                     @forelse ($products as $product)
                         <tr class="hover:bg-zinc-50 transition-colors">
-                            <td class="py-4 pr-4 pl-6 align-top text-zinc-900">{{ $product->name }}</td>
-                            <td class="py-4 px-4 align-top whitespace-nowrap text-zinc-600">Rp
-                                {{ number_format((float) $product->price, 2, ',', '.') }}</td>
+                            <td class="py-4 pr-4 pl-6 align-top text-zinc-900">
+                                <div class="group relative max-w-[150px] sm:max-w-[200px] md:max-w-[250px]">
+                                    <span class="block truncate cursor-default">{{ $product->name }}</span>
+                                    <div class="pointer-events-none absolute bottom-full left-0 mb-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-50 w-max max-w-xs bg-zinc-900 text-white text-xs rounded px-2.5 py-1.5 shadow-lg whitespace-normal leading-relaxed">
+                                        {{ $product->name }}
+                                        <div class="absolute -bottom-1 left-3 w-2.5 h-2.5 bg-zinc-900 rotate-45 transform"></div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="py-4 px-4 align-top whitespace-nowrap text-zinc-600">Rp {{ number_format((float) $product->price, 2, ',', '.') }}</td>
                             <td class="py-4 px-4 align-top text-zinc-600">{{ $product->stock }}</td>
                             <td class="py-4 px-4 align-top text-zinc-500 hidden md:table-cell max-w-xs truncate">
                                 {{ $product->description }}</td>
