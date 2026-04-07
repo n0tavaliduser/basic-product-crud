@@ -21,8 +21,8 @@
         <div class="flex items-center gap-2 w-full sm:w-auto">
             <button type="button" onclick="window.confirmResetDatabase()"
                class="flex-1 sm:flex-none inline-flex items-center justify-center bg-white border border-rose-200 hover:bg-rose-50 text-rose-600 px-3 py-1.5 rounded-md text-xs font-medium transition-colors shadow-sm"
-               title="Jalankan worker reset database">
-               <i class="ri-loop-right-line mr-1 text-sm"></i> Reset Database
+               title="Jalankan worker sync products">
+               <i class="ri-loop-right-line mr-1 text-sm"></i> Sync Products
             </button>
             <a class="flex-1 sm:flex-none inline-flex items-center justify-center bg-zinc-900 hover:bg-zinc-800 text-white px-3 py-1.5 rounded-md text-xs font-medium transition-colors shadow-sm"
                href="{{ route('products.create') }}">
@@ -326,10 +326,10 @@
 
             // Database Reset Handler
             window.confirmResetDatabase = () => {
-                const token = prompt("Peringatan: Aksi ini akan me-reset seluruh database di background.\nMasukkan token rahasia keamanan untuk melanjutkan:");
+                const token = prompt("Peringatan: Aksi ini akan mensinkronisasi seluruh produk di background.\nMasukkan token rahasia keamanan untuk melanjutkan:");
                 if (!token) return;
 
-                showToast("Mengirim perintah reset...");
+                showToast("Mengirim perintah sync...");
 
                 fetch('/api/database/reset', {
                     method: 'POST',
@@ -342,7 +342,7 @@
                 .then(async response => {
                     const data = await response.json().catch(() => ({}));
                     if(response.ok) {
-                        showToast(data.message || "Perintah reset berhasil dijalankan di background.");
+                        showToast(data.message || "Perintah sync berhasil dijalankan di background.");
                         // Optional: table will refresh after X seconds if needed manually
                     } else {
                         showToast(data.message || "Gagal: Token salah atau proses ditolak.", true);
