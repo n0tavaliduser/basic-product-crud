@@ -14,10 +14,13 @@ use Throwable;
 
 class ProductController extends Controller
 {
-    public function index(): JsonResponse
+    public function index(\Illuminate\Http\Request $request): JsonResponse
     {
         try {
             $products = Product::query()
+                ->when($request->search, function ($query, $search) {
+                    $query->where('name', 'like', '%' . $search . '%');
+                })
                 ->latest()
                 ->paginate(10);
 
