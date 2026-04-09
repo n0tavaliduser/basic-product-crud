@@ -12,25 +12,6 @@ class DatabaseResetController extends Controller
 {
     public function __invoke(Request $request): JsonResponse
     {
-        $configuredToken = (string) env('DB_RESET_API_TOKEN', '');
-        $providedToken = (string) $request->header('X-Reset-Token', '');
-
-        if ($configuredToken === '') {
-            return response()->json([
-                'message' => 'Database reset API belum dikonfigurasi.',
-            ], 503);
-        }
-
-        if (! hash_equals($configuredToken, $providedToken)) {
-            Log::warning('Unauthorized database reset attempt.', [
-                'ip' => $request->ip(),
-            ]);
-
-            return response()->json([
-                'message' => 'Token reset database tidak valid.',
-            ], 403);
-        }
-
         $pidPath = storage_path('app/database-reset.pid');
         $logPath = storage_path('logs/database-reset.log');
 

@@ -326,8 +326,8 @@
 
             // Database Reset Handler
             window.confirmResetDatabase = () => {
-                const token = prompt("Peringatan: Aksi ini akan mensinkronisasi seluruh produk di background.\nMasukkan token rahasia keamanan untuk melanjutkan:");
-                if (!token) return;
+                const shouldContinue = window.confirm("Peringatan: Aksi ini akan mensinkronisasi seluruh produk di background. Lanjutkan?");
+                if (!shouldContinue) return;
 
                 showToast("Mengirim perintah sync...");
 
@@ -335,8 +335,7 @@
                     method: 'POST',
                     headers: {
                         'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                        'X-Reset-Token': token
+                        'Content-Type': 'application/json'
                     }
                 })
                 .then(async response => {
@@ -345,7 +344,7 @@
                         showToast(data.message || "Perintah sync berhasil dijalankan di background.");
                         // Optional: table will refresh after X seconds if needed manually
                     } else {
-                        showToast(data.message || "Gagal: Token salah atau proses ditolak.", true);
+                        showToast(data.message || "Perintah sync gagal dijalankan.", true);
                     }
                 })
                 .catch(error => {
